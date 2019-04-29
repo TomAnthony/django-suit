@@ -1,5 +1,5 @@
 ===========
-Django Suit
+Django Suit (Tom)
 ===========
 
 **Modern theme for Django admin interface**.
