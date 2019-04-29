@@ -37,8 +37,8 @@ def get_related_field(name, short_description=None, admin_order_field=None, admi
                 continue
             obj = getattr(obj, related_name)
         if obj and as_link:
-            obj = u'<a href="%s" class="link-with-icon">%s<i class="fa fa-caret-right"></i></a>' % \
-                  (get_admin_url(obj, admin_prefix, current_app=self.admin_site.name), obj)
+            obj = mark_safe(u'<a href="%s" class="link-with-icon">%s<i class="fa fa-caret-right"></i></a>' % \
+                            (get_admin_url(obj, admin_prefix, current_app=self.admin_site.name), obj))
         return obj
 
     getter.admin_order_field = admin_order_field or name
@@ -91,7 +91,8 @@ class RelatedFieldAdmin(admin.ModelAdmin):
                 field = model._meta.get_field(field_name)
             except models.FieldDoesNotExist:
                 continue
-            if isinstance(field.rel, models.ManyToOneRel):
+
+            if isinstance(field.remote_field, models.ManyToOneRel):
                 select_related.append(field_name)
 
         return qs.select_related(*select_related)

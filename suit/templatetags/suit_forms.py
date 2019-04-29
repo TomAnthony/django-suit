@@ -1,3 +1,4 @@
+import django
 from django import template
 from django.utils.safestring import mark_safe
 from suit import config
@@ -5,6 +6,10 @@ from suit.config import get_config
 
 register = template.Library()
 
+if django.VERSION < (1, 9):
+    simple_tag = register.assignment_tag
+else:
+    simple_tag = register.simple_tag
 
 def get_form_size(fieldset):
     form_size_by_config = get_config('form_size')
